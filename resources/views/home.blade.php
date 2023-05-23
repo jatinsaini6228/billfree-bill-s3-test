@@ -60,14 +60,11 @@
             @include("./invoices/".$invoice)
       </div>
       
-      <div style="display:none">
-        <input type="text" id="currentPreviewInvoice" value="0">
-      </div>
-
+  
       </div>
       <div class="modal-footer">
-        <button type="button" onclick="viewInvoice()" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Preview as PDF">Preview as PDF</button>
-        <button type="button" onclick="saveInvoice()" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Save PDF on Aws & Your System">Save as PDF</button>
+        <span id="s3url"></span>
+        <span id="savePdf"><button type="button" id="savePdfButton" onclick="viewInvoice()"  class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Save as PDF ">Save</button></span>
         <button type="button"  class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Close Popup" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
@@ -80,23 +77,33 @@
 
 function viewInvoice() 
 {
-  const invoice = $('#currentPreviewInvoice').val();
-  window.location = "/invoice/0/0";
-}
-
-    /*
-    alert('1');
-        $.ajax(
+  $.ajax(
         {
-            url: "/api/get-invoice/1", 
-            success: function(result){
-            const obj = JSON.parse(result);
-            alert(result);
-            $('#logo_data').html(obj.name)
-
+            url: "/invoice/0/0", 
+            beforeSend: function() {
+                // setting a timeout
+                $('#savePdfButton').html('Saving.....');
+            },
+            success: function(result)
+            {
+              const obj = JSON.parse(result);
+              console.log(result);
+              const status = obj.status;
+              if(status == "success")
+              {
+                $('#savePdf').html("");
+                const URL = obj.url;
+                $('#s3url').html("<a href='"+URL+"' target='_blank' class='btn btn-success'>View Saved PDF</a>")
+              }
+            else {
+              alert(obj.message);
+            }
         }
     });
-    */
+
+}
+       
+  
 </script>
 
 </div>

@@ -126,6 +126,13 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
+
+
+    'aws_key' => env('AWS_ACCESS_KEY_ID'),
+    'aws_secret' => env('AWS_SECRET_ACCESS_KEY'),
+    'aws_bucket' => env('AWS_BUCKET'),
+    'aws_region' => env('AWS_DEFAULT_REGION'),
+
     /*
     |--------------------------------------------------------------------------
     | Maintenance Mode Driver

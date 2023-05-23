@@ -1,6 +1,7 @@
 <?php
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PdfGeneratorController;
+use App\Http\Controllers\AwsStorageController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -23,5 +24,13 @@ Route::get('/home', function () {
 
 
 Route::get('/invoice/{layout}/{key}', [PdfGeneratorController::class, 'index']);
+
+
+
+// Check AWS S3 Connection
+Route::get('/aws-s3', [AwsStorageController::class, 'index']);
+
+// Get List of AWS S3 Files
+Route::get('/aws-s3/files', [AwsStorageController::class, 'getS3Files']);
 
 ?>
