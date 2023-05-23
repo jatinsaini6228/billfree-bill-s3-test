@@ -10,16 +10,31 @@ use Aws\Exception\AwsException;
 
 use App\Http\Controllers\AwsStorageController;
 
+use Dompdf\Options;
+
+
 class PdfGeneratorController extends Controller
 {
+
 
     public function index($layout = 0, $key = 0) 
     {
         $AwsStorageController = new AwsStorageController;
         $data = [];
         // Create a new instance of Dompdf
-        $pdf = PDF::loadView('invoices.invoice'.$layout, $data)->stream('invoice.pdf');
+        
+        // Create an instance of Dompdf
+        $dompdf = new Dompdf();
 
+        // Enable remote stylesheets and set the base path
+        $options = new Options();
+        $options->setIsRemoteEnabled(true);
+        $options->set('chroot', public_path()); // Set the base path
+        $dompdf->setOptions($options);
+
+
+        $pdf = PDF::loadView('invoices.invoice'.$layout, $data)->stream('invoice.pdf');
+        
         // Generate a unique file name
         $fileName = uniqid('pdf_') . '.pdf';
 
@@ -38,6 +53,7 @@ class PdfGeneratorController extends Controller
 
 
         return json_encode($s3Uploadedfile);
+        
 
     }
 

@@ -62,6 +62,10 @@ class AwsStorageController extends Controller
                 'Bucket' => $bucketName
             ]);
 
+            if (!isset($objects['Contents']))
+            { return "No files, please go to home page and save atlead one pdf."; }
+
+
             // Iterate through the objects and store the file names in the array
             foreach ($objects['Contents'] as $object) {
                 $fileList[] = $object['Key'];

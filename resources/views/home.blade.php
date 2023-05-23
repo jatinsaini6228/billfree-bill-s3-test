@@ -56,7 +56,7 @@
       <div class="modal-body" style="padding:8px;">
         
       
-      <div class="container" style="padding: 24px; border-radius: 8px; border: 1px solid #ccc;">
+      <div class="container" style="padding: 24px; ">
             @include("./invoices/".$invoice)
       </div>
       
